@@ -19,12 +19,13 @@ type clientConfig struct {
 }
 
 type connConfig struct {
-	Addr          string
-	ErrorHandler  func(error)
-	FlushPeriod   time.Duration
-	MaxPacketSize int
-	Network       string
-	TagFormat     TagFormat
+	Addr             string
+	ErrorHandler     func(error)
+	FlushPeriod      time.Duration
+	MaxPacketSize    int
+	Network          string
+	TagFormat        TagFormat
+	VerifyConnection bool
 }
 
 // An Option represents an option for a Client. It must be used as an
@@ -120,6 +121,13 @@ type TagFormat uint8
 func TagsFormat(tf TagFormat) Option {
 	return Option(func(c *config) {
 		c.Conn.TagFormat = tf
+	})
+}
+
+// Whether to verify the connection on creation
+func VerifyConnection(shouldVerify bool) Option {
+	return Option(func(c *config) {
+		c.Conn.VerifyConnection = shouldVerify
 	})
 }
 
