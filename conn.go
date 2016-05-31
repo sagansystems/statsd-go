@@ -47,7 +47,7 @@ func newConn(conf connConfig, muted bool) (*conn, error) {
 	}
 	// When using UDP do a quick check to see if something is listening on the
 	// given port to return an error as soon as possible.
-	if c.network[:3] == "udp" {
+	if conf.VerifyConnection && c.network[:3] == "udp" {
 		for i := 0; i < 2; i++ {
 			_, err = c.w.Write(nil)
 			if err != nil {

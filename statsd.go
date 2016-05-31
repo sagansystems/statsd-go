@@ -23,8 +23,9 @@ func New(opts ...Option) (*Client, error) {
 			FlushPeriod: 100 * time.Millisecond,
 			// Worst-case scenario:
 			// Ethernet MTU - IPv6 Header - TCP Header = 1500 - 40 - 20 = 1440
-			MaxPacketSize: 1440,
-			Network:       "udp",
+			MaxPacketSize:    1440,
+			Network:          "udp",
+			VerifyConnection: true,
 		},
 	}
 	for _, o := range opts {
