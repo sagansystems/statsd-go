@@ -43,6 +43,19 @@ func TestTiming(t *testing.T) {
 	})
 }
 
+func TestTimingWithDuration(t *testing.T) {
+	testOutput(t, "test_key:6|ms", func(c *Client) {
+		c.Timing(testKey, time.Duration(6000000))
+	})
+}
+
+func TestTimingWithDurationP(t *testing.T) {
+	d := time.Duration(6000000)
+	testOutput(t, "test_key:6|ms", func(c *Client) {
+		c.Timing(testKey, &d)
+	})
+}
+
 func TestHistogram(t *testing.T) {
 	testOutput(t, "test_key:17|h", func(c *Client) {
 		c.Histogram(testKey, 17)

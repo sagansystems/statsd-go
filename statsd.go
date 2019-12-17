@@ -106,7 +106,7 @@ func (c *Client) Timing(bucket string, value interface{}) {
 	if c.skip() {
 		return
 	}
-	c.conn.metric(c.prefix, bucket, value, "ms", c.rate, c.tags)
+	c.conn.metric(c.prefix, bucket, timingToNumber(value), "ms", c.rate, c.tags)
 }
 
 // Histogram sends an histogram value to a bucket.
@@ -167,4 +167,15 @@ func (c *Client) Close() {
 	c.conn.handleError(c.conn.w.Close())
 	c.conn.closed = true
 	c.conn.mu.Unlock()
+}
+
+func timingToNumber(value interface{}) interface{} {
+	switch v := value.(type) {
+	case time.Duration:
+		return v.Milliseconds()
+	case *time.Duration:
+		return v.Milliseconds()
+	default:
+		return value
+	}
 }
